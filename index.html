@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pavan Durgam — Full Stack Java Developer</title>
+<meta name="description" content="Pavan Durgam — Full Stack Java Developer specializing in Spring Boot, Angular, ReactJS and enterprise report-automation pipelines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — Teal / Peach / Ink palette
+============================================================ */
+:root{
+  --font-d:'Space Grotesk',sans-serif;
+  --font-b:'Inter',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --font-s:'Fraunces',serif;
+  --r-sm:9px; --r-md:14px; --r-lg:22px; --r-xl:30px;
+  --nav-h:76px;
+}
+[data-theme="light"]{
+  --bg:#FFFDFB; --bg-soft:#FFF7EE; --surface:#FFFFFF; --surface-2:#FFF0E4;
+  --line:#EDE1D3; --line-soft:#F4EAE0;
+  --text:#0B0F0E; --text-dim:#4B524F; --text-mute:#8B928E;
+  --teal:#007979; --teal-2:#24B1B1; --teal-dim:rgba(0,121,121,0.08); --teal-hover:#005F5F;
+  --peach:#FFE0C5; --peach-dim:#FFF0E4; --peach-ink:#8A4B1E;
+  --ink:#FFFFFF;
+  --shadow:0 22px 48px rgba(0,45,45,0.10);
+  --shadow-sm:0 8px 22px rgba(0,45,45,0.07);
+  --glass:rgba(255,253,251,0.78);
+  --grid-op:0.05;
+  --danger:#D6484D;
+}
+[data-theme="dark"]{
+  --bg:#07100F; --bg-soft:#0B1615; --surface:#101B1A; --surface-2:#152423;
+  --line:#1E332F; --line-soft:#182927;
+  --text:#F3F1EC; --text-dim:#A9B6B2; --text-mute:#657672;
+  --teal:#2FD9C9; --teal-2:#7EE8DB; --teal-dim:rgba(47,217,201,0.13); --teal-hover:#5CE9DC;
+  --peach:#3A2A1E; --peach-dim:#241A14; --peach-ink:#FFCB93;
+  --ink:#03201D;
+  --shadow:0 24px 52px rgba(0,0,0,0.5);
+  --shadow-sm:0 10px 24px rgba(0,0,0,0.38);
+  --glass:rgba(16,27,26,0.7);
+  --grid-op:0.08;
+  --danger:#FF7B7F;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .4s ease,color .4s ease;}
+img{max-width:100%;display:block;}
+a{color:var(--teal);text-decoration:none;transition:color .2s ease;}
+a:hover{color:var(--teal-hover);}
+button{font-family:var(--font-b);cursor:pointer;}
+::selection{background:rgba(0,121,121,0.18);}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--bg-soft);}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px;}
+.ic{width:1em;height:1em;display:inline-block;vertical-align:-0.14em;flex-shrink:0;}
+.ic svg{width:100%;height:100%;}
+.hl{color:var(--teal);font-weight:700;}
+.mark{background:linear-gradient(180deg,transparent 62%,var(--peach) 62%);padding:0 .05em;}
+
+/* ============================================================
+   BACKDROP
+============================================================ */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.5;transition:background .4s ease;}
+.blob-1{width:500px;height:500px;background:radial-gradient(circle,var(--teal-2),transparent 70%);top:-12%;right:-8%;opacity:.22;}
+.blob-2{width:420px;height:420px;background:radial-gradient(circle,var(--peach),transparent 70%);bottom:0%;left:-12%;opacity:.55;}
+.blob-3{width:300px;height:300px;background:radial-gradient(circle,var(--teal),transparent 70%);top:48%;left:40%;opacity:.14;}
+[data-theme="dark"] .blob{opacity:.22;}
+[data-theme="dark"] .blob-2{opacity:.16;}
+.grain{position:absolute;inset:0;opacity:var(--grid-op);background-image:radial-gradient(var(--text) 1px,transparent 1px);background-size:26px 26px;}
+
+/* ============================================================
+   REVEAL
+============================================================ */
+.rv,.rv-l,.rv-r{opacity:0;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.rv{transform:translateY(26px);}
+.rv-l{transform:translateX(-34px);}
+.rv-r{transform:translateX(34px);}
+.rv.visible,.rv-l.visible,.rv-r.visible{opacity:1;transform:translate(0,0);}
+
+/* ============================================================
+   NAV
+============================================================ */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--line-soft);transition:background .4s ease,border-color .4s ease,box-shadow .3s ease;}
+.nav-inner{max-width:1280px;margin:0 auto;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;}
+.nav-logo{font-family:var(--font-d);font-weight:800;font-size:1.05rem;color:var(--text);display:flex;align-items:center;gap:.6rem;}
+.nav-logo-mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--teal-2));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-d);font-weight:800;font-size:.9rem;}
+.nav-links{display:flex;gap:.15rem;list-style:none;}
+.nav-links a{padding:.5rem .8rem;font-size:.82rem;font-weight:600;color:var(--text-dim);border-radius:999px;transition:all .2s ease;}
+.nav-links a:hover,.nav-links a.active{color:var(--teal);background:var(--teal-dim);}
+.nav-right{display:flex;align-items:center;gap:.6rem;}
+.icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text-dim);transition:all .25s ease;box-shadow:var(--shadow-sm);font-size:1rem;}
+.icon-btn:hover{color:var(--teal);border-color:var(--teal);}
+.resume-nav-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.62rem 1.25rem;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;font-size:.82rem;font-weight:700;border-radius:999px;border:none;transition:all .22s ease;box-shadow:0 8px 20px rgba(0,121,121,.28);}
+.resume-nav-btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,121,121,.38);}
+.hamburger{display:none;width:40px;height:40px;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text-dim);font-size:1.05rem;}
+
+.mobile-overlay{position:fixed;inset:0;z-index:1100;background:rgba(6,14,13,.55);opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.mobile-overlay.open{opacity:1;pointer-events:all;}
+.mobile-menu{position:fixed;top:0;right:0;bottom:0;width:290px;z-index:1101;background:var(--surface);border-left:1px solid var(--line);padding:5.5rem 1.5rem 1.5rem;transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);overflow-y:auto;}
+.mobile-menu.open{transform:translateX(0);}
+.mobile-menu a{display:block;padding:.85rem 1.1rem;color:var(--text-dim);font-weight:600;font-size:.92rem;border-radius:12px;}
+.mobile-menu a:hover{color:var(--teal);background:var(--teal-dim);}
+.mobile-close{position:absolute;top:1.2rem;right:1.2rem;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;color:var(--text-dim);}
+.mobile-resume{margin-top:1.2rem;display:block;width:100%;padding:.8rem 1rem;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;font-weight:700;font-size:.85rem;border-radius:12px;border:none;text-align:center;}
+
+/* ============================================================
+   SHARED
+============================================================ */
+.page{position:relative;z-index:1;}
+.section{padding:6.8rem 1.5rem;max-width:1280px;margin:0 auto;position:relative;}
+.sec-head{margin-bottom:3.2rem;}
+.sec-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .9rem;background:var(--teal-dim);border-radius:999px;font-family:var(--font-m);font-size:.72rem;font-weight:600;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;}
+.sec-title{font-family:var(--font-d);font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;color:var(--text);margin-bottom:.7rem;line-height:1.15;}
+.sec-title i{font-family:var(--font-s);font-style:italic;font-weight:500;color:var(--teal);}
+.sec-desc{font-size:.96rem;color:var(--text-dim);max-width:620px;}
+
+.glass-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);transition:all .3s ease;}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{padding:calc(var(--nav-h) + 2.4rem) 1.5rem 4rem;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center;min-height:92vh;}
+.chip{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1rem;background:var(--teal-dim);border:1px solid rgba(0,121,121,.22);border-radius:999px;color:var(--teal);font-size:.78rem;font-weight:700;margin-bottom:1.6rem;}
+.chip .d{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.6);}}
+.hero-eyebrow{font-family:var(--font-m);font-size:.9rem;color:var(--text-mute);margin-bottom:.5rem;}
+.hero-name{font-family:var(--font-d);font-size:clamp(2.4rem,5.4vw,3.6rem);font-weight:800;line-height:1.06;color:var(--text);margin-bottom:.6rem;}
+.hero-name span{background:linear-gradient(135deg,var(--teal),var(--teal-2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-role{font-size:clamp(1.05rem,2.2vw,1.3rem);font-family:var(--font-d);color:var(--text-dim);font-weight:600;margin-bottom:1.5rem;display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;min-height:2rem;}
+.hero-role .typed{color:var(--teal);}
+.cursor{display:inline-block;width:2px;height:1.1em;background:var(--teal);margin-left:1px;animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.hero-summary{font-size:1rem;color:var(--text-dim);line-height:1.85;max-width:560px;margin-bottom:2.1rem;}
+.hero-summary b{color:var(--teal);font-weight:700;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+.btn-solid{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.7rem;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;font-size:.86rem;font-weight:700;border-radius:999px;border:none;transition:all .22s ease;box-shadow:0 10px 26px rgba(0,121,121,.3);}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,121,121,.4);}
+.btn-line{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 1.7rem;background:var(--surface);color:var(--text);font-size:.86rem;font-weight:600;border:1px solid var(--line);border-radius:999px;transition:all .22s ease;box-shadow:var(--shadow-sm);}
+.btn-line:hover{border-color:var(--teal);color:var(--teal);}
+.hero-socials{display:flex;gap:.65rem;}
+.social{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text-dim);font-size:1rem;transition:all .22s ease;box-shadow:var(--shadow-sm);}
+.social:hover{color:var(--teal);border-color:var(--teal);transform:translateY(-3px);}
+
+/* ===== hero visual ===== */
+.hero-visual{position:relative;padding:1.8rem 0 2.6rem 2.2rem;}
+.profile-ring{position:relative;width:min(340px,86%);margin:0 auto;}
+.profile-ring::before{content:'';position:absolute;inset:-18px;border-radius:50%;background:conic-gradient(from 0deg,var(--teal),var(--peach),var(--teal-2),var(--teal));opacity:.35;filter:blur(2px);animation:spin 14s linear infinite;}
+.profile-ring::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px dashed var(--line);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.profile-photo{position:relative;width:100%;aspect-ratio:1/1;border-radius:50%;overflow:hidden;border:6px solid var(--surface);box-shadow:var(--shadow);}
+.profile-photo img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
+.floating-profile{position:absolute;left:-1.4rem;bottom:-.6rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:.9rem 1.2rem;display:flex;align-items:center;gap:.7rem;}
+.fp-dot{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;color:var(--teal);font-weight:700;}
+.fp-dot span{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+.floating-exp{position:absolute;right:-2.4rem;top:-1.6rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);padding:.75rem 1.15rem;text-align:center;}
+.floating-exp b{display:block;font-family:var(--font-d);font-size:1.4rem;font-weight:800;color:var(--teal);}
+.floating-exp small{font-size:.72rem;color:var(--text-mute);font-family:var(--font-m);text-transform:uppercase;}
+.floating-stack{position:absolute;left:-13.6rem;top:1%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);padding:.7rem .9rem;display:flex;align-items:center;gap:.5rem;font-family:var(--font-m);font-size:.78rem;color:var(--text-dim);}
+.floating-stack b{color:var(--teal);}
+
+/* ============================================================
+   ABOUT
+============================================================ */
+.about-wrap{display:grid;grid-template-columns:1.35fr 1fr;gap:3.2rem;align-items:start;}
+.about-lead{font-size:1.08rem;color:var(--text);font-weight:600;line-height:1.75;margin-bottom:1.3rem;font-family:var(--font-d);}
+.about-p{font-size:.94rem;color:var(--text-dim);line-height:1.9;margin-bottom:1.1rem;}
+.about-p b{color:var(--teal);font-weight:700;}
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.5rem;}
+.spec-item{display:flex;align-items:center;gap:.7rem;padding:.8rem .95rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);transition:all .2s ease;box-shadow:var(--shadow-sm);}
+.spec-item:hover{border-color:var(--teal);transform:translateX(3px);}
+.spec-item .ic-box{width:34px;height:34px;border-radius:10px;background:var(--teal-dim);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.spec-k{font-size:.62rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-m);display:block;}
+.spec-v{font-size:.8rem;color:var(--text);font-weight:600;}
+
+.focus-card{display:flex;gap:1rem;padding:1.3rem;margin-bottom:1rem;border-radius:var(--r-lg);}
+.focus-ic{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.focus-title{font-family:var(--font-d);font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:.3rem;}
+.focus-desc{font-size:.82rem;color:var(--text-dim);line-height:1.65;}
+
+/* ============================================================
+   SKILLS — meaningful stack
+============================================================ */
+.core-strip{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem;}
+.core-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.05rem;background:linear-gradient(135deg,var(--teal-dim),var(--peach-dim));border:1px solid rgba(0,121,121,.22);border-radius:999px;font-size:.8rem;font-weight:700;color:var(--teal);}
+.core-pill .ic{font-size:1rem;}
+
+.skills-bento{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;}
+.skill-card{grid-column:span 2;padding:1.6rem;border-radius:var(--r-lg);position:relative;overflow:hidden;}
+.skill-card.wide{grid-column:span 4;}
+.skill-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(var(--teal),var(--teal-2));}
+.skill-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;gap:.8rem;}
+.skill-head-l{display:flex;align-items:center;gap:.8rem;}
+.skill-ic{width:42px;height:42px;border-radius:12px;background:var(--teal-dim);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:1.05rem;}
+.skill-name{font-family:var(--font-d);font-weight:700;font-size:.94rem;color:var(--text);}
+.skill-tagline{font-size:.68rem;color:var(--text-mute);font-family:var(--font-m);}
+.meter-list{display:flex;flex-direction:column;gap:.65rem;margin-bottom:.9rem;}
+.meter-row{display:grid;grid-template-columns:110px 1fr 34px;align-items:center;gap:.7rem;}
+.meter-row .m-name{font-size:.78rem;color:var(--text-dim);font-weight:600;}
+.meter-track{height:8px;background:var(--bg-soft);border-radius:5px;overflow:hidden;border:1px solid var(--line-soft);}
+.meter-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--teal-2));border-radius:5px;transition:width 1.4s cubic-bezier(.16,1,.3,1);}
+.meter-row .m-pct{font-family:var(--font-m);font-size:.68rem;color:var(--text-mute);text-align:right;}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;}
+.chip-tag{padding:.35rem .75rem;background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:999px;font-size:.75rem;font-weight:500;color:var(--text-dim);}
+.chip-tag.core{background:var(--teal-dim);border-color:rgba(0,121,121,.25);color:var(--teal);font-weight:700;}
+@media (max-width:900px){.skills-bento{grid-template-columns:repeat(2,1fr);}.skill-card{grid-column:span 2;}.skill-card.wide{grid-column:span 2;}}
+@media (max-width:560px){.skills-bento{grid-template-columns:1fr;}.skill-card,.skill-card.wide{grid-column:span 1;}.meter-row{grid-template-columns:92px 1fr 30px;}}
+
+/* ============================================================
+   EXPERIENCE — graph timeline
+============================================================ */
+.tl-graph-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.8rem 2rem 1.5rem;margin-bottom:3rem;box-shadow:var(--shadow-sm);}
+.tl-graph-title{font-family:var(--font-m);font-size:.68rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.tl-graph-sub{font-size:.8rem;color:var(--text-dim);margin-bottom:1.3rem;}
+.tl-graph{width:100%;height:auto;overflow:visible;}
+.tl-graph .grid-line{stroke:var(--line-soft);stroke-width:1;}
+.tl-graph .impact-line{fill:none;stroke:url(#lineGrad);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1);}
+.tl-graph .impact-area{fill:url(#areaGrad);opacity:0;transition:opacity 1s ease .6s;}
+.tl-graph.on .impact-line{stroke-dashoffset:0;}
+.tl-graph.on .impact-area{opacity:1;}
+.tl-graph .node-dot{fill:var(--surface);stroke:var(--teal);stroke-width:3;transition:transform .3s ease;}
+.tl-graph .node-dot:hover{transform:scale(1.3);}
+.tl-graph .node-label{font-family:var(--font-m);font-size:10px;fill:var(--text-mute);}
+.tl-graph .node-value{font-family:var(--font-d);font-size:12px;font-weight:800;fill:var(--text);}
+
+.company-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:1.6rem;transition:all .3s ease;}
+.company-card:hover{box-shadow:var(--shadow);}
+.company-head{padding:1.8rem 1.9rem;display:flex;align-items:center;gap:1.3rem;border-bottom:1px solid var(--line-soft);background:var(--bg-soft);flex-wrap:wrap;}
+.company-logo{width:58px;height:58px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--teal),var(--teal-2));border-radius:16px;color:#fff;font-family:var(--font-d);font-size:1.35rem;font-weight:800;flex-shrink:0;}
+.company-info{flex:1;min-width:220px;}
+.company-name{font-family:var(--font-d);font-size:1.18rem;font-weight:800;color:var(--text);margin-bottom:.25rem;}
+.company-meta{font-size:.78rem;color:var(--text-dim);display:flex;gap:1.1rem;flex-wrap:wrap;}
+.company-meta span{display:inline-flex;align-items:center;gap:.35rem;}
+.company-meta .ic{color:var(--teal);}
+.company-badge{padding:.4rem .9rem;background:var(--teal-dim);border:1px solid rgba(0,121,121,.28);border-radius:999px;font-size:.68rem;font-weight:700;color:var(--teal);font-family:var(--font-m);display:inline-flex;align-items:center;gap:.4rem;text-transform:uppercase;}
+.company-badge::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+
+.steps{padding:1.8rem;position:relative;}
+.step{position:relative;padding-left:3.4rem;padding-bottom:2rem;}
+.step:last-child{padding-bottom:0;}
+.step::before{content:'';position:absolute;left:1.1rem;top:2.6rem;bottom:-.2rem;width:2px;background:linear-gradient(var(--teal),var(--line-soft));}
+.step:last-child::before{display:none;}
+.step-node{position:absolute;left:0;top:0;width:2.3rem;height:2.3rem;border-radius:50%;background:var(--teal-dim);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:1rem;border:2px solid var(--surface);box-shadow:0 0 0 2px var(--line);}
+.step.current .step-node{background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;box-shadow:0 0 0 5px var(--teal-dim);}
+.step-top{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.55rem;}
+.step-title{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--text);}
+.step-client{font-family:var(--font-m);font-size:.68rem;color:var(--teal);margin-top:.15rem;}
+.step-period{font-family:var(--font-m);font-size:.68rem;color:var(--text-mute);padding:.28rem .7rem;background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:999px;white-space:nowrap;height:fit-content;}
+.step-desc{font-size:.85rem;color:var(--text-dim);line-height:1.75;margin-bottom:.7rem;}
+.step-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.45rem 1.1rem;margin-bottom:.8rem;}
+.step-list li{font-size:.79rem;color:var(--text-dim);padding-left:1.15rem;position:relative;line-height:1.6;}
+.step-list li::before{content:'';position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--teal);}
+.step-list .metric{color:var(--teal);font-weight:700;}
+.step-stack{display:flex;flex-wrap:wrap;gap:.4rem;}
+.step-stack span{font-size:.65rem;font-family:var(--font-m);color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,121,121,.2);padding:.2rem .55rem;border-radius:var(--r-sm);}
+
+.early-head{display:flex;align-items:center;gap:.8rem;margin:2.6rem 0 1.4rem;}
+.early-head .ln{flex:1;height:1px;background:var(--line);}
+.early-head span{font-family:var(--font-m);font-size:.72rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+.early-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.early-card{padding:1.4rem;border-radius:var(--r-lg);}
+.early-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem;gap:.8rem;}
+.early-role{font-family:var(--font-d);font-weight:700;font-size:.9rem;color:var(--text);}
+.early-org{font-size:.76rem;color:var(--teal);font-family:var(--font-m);margin-top:.15rem;}
+.early-period{font-size:.66rem;color:var(--text-mute);font-family:var(--font-m);white-space:nowrap;}
+.early-list{list-style:none;margin-bottom:.6rem;}
+.early-list li{font-size:.78rem;color:var(--text-dim);padding-left:1rem;position:relative;margin-bottom:.35rem;line-height:1.6;}
+.early-list li::before{content:'';position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--teal);}
+.early-link{font-size:.72rem;font-family:var(--font-m);color:var(--teal);}
+@media (max-width:768px){.early-grid{grid-template-columns:1fr;}.step-list{grid-template-columns:1fr;}}
+
+/* ============================================================
+   CASE STUDIES — tabbed showcase
+============================================================ */
+.cs-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;}
+.cs-tab{padding:.7rem 1.3rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text-dim);font-size:.83rem;font-weight:700;font-family:var(--font-d);transition:all .22s ease;box-shadow:var(--shadow-sm);}
+.cs-tab.active{background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(0,121,121,.3);}
+.cs-tab:not(.active):hover{border-color:var(--teal);color:var(--teal);}
+
+.cs-panel{display:none;}
+.cs-panel.active{display:block;animation:fadeUp .45s ease;}
+.cs-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-sm);}
+.cs-banner{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-2) 100%);padding:2.4rem 2.4rem 2.8rem;color:#fff;position:relative;overflow:hidden;}
+.cs-banner::after{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);}
+.cs-eyebrow{font-family:var(--font-m);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.85;margin-bottom:.6rem;}
+.cs-title{font-family:var(--font-d);font-size:clamp(1.4rem,2.6vw,1.85rem);font-weight:800;margin-bottom:.5rem;}
+.cs-quote{font-family:var(--font-s);font-style:italic;font-size:1.05rem;max-width:640px;opacity:.95;line-height:1.6;}
+.cs-body{padding:2.2rem 2.4rem 2.4rem;}
+.cs-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:-3.4rem;margin-bottom:1.8rem;position:relative;z-index:2;}
+.cs-stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.1rem 1.2rem;box-shadow:var(--shadow);text-align:center;}
+.cs-stat b{display:block;font-family:var(--font-d);font-size:1.35rem;font-weight:800;color:var(--teal);}
+.cs-stat small{font-size:.66rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.04em;font-family:var(--font-m);}
+.cs-cols{display:grid;grid-template-columns:1.15fr .85fr;gap:2.2rem;}
+.cs-lead{font-size:.94rem;color:var(--text);font-weight:600;line-height:1.8;margin-bottom:1rem;}
+.cs-desc{font-size:.87rem;color:var(--text-dim);line-height:1.85;margin-bottom:.8rem;}
+.cs-feature-list{list-style:none;}
+.cs-feature-list li{font-size:.86rem;color:var(--text-dim);line-height:1.7;padding-left:1.5rem;position:relative;margin-bottom:.65rem;}
+.cs-feature-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--teal);font-weight:800;}
+.cs-side-title{font-family:var(--font-m);font-size:.68rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8rem;}
+.cs-stack{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.6rem;}
+.cs-stack span{font-size:.7rem;font-family:var(--font-m);color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,121,121,.2);padding:.28rem .65rem;border-radius:var(--r-sm);}
+.cs-role-box{background:var(--peach-dim);border:1px solid rgba(255,224,197,.6);border-radius:var(--r-lg);padding:1.1rem 1.2rem;}
+[data-theme="dark"] .cs-role-box{border-color:rgba(255,203,147,.18);}
+.cs-role-box b{color:var(--peach-ink);font-family:var(--font-d);font-size:.82rem;display:block;margin-bottom:.35rem;}
+.cs-role-box p{font-size:.8rem;color:var(--text-dim);line-height:1.7;}
+@media (max-width:860px){.cs-cols{grid-template-columns:1fr;}.cs-stats{margin-top:1rem;}.cs-banner{padding:2rem 1.6rem 2.6rem;}.cs-body{padding:1.8rem 1.6rem;}}
+
+/* ============================================================
+   PROJECTS — carousel
+============================================================ */
+.carousel{position:relative;max-width:800px;margin:0 auto;}
+.carousel-track-wrap{overflow:hidden;border-radius:var(--r-xl);}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.16,1,.3,1);}
+.slide{min-width:100%;background:var(--surface);border:1px solid var(--line);}
+.slide-banner{height:130px;background:linear-gradient(120deg,var(--teal),var(--teal-2) 60%,var(--peach));position:relative;overflow:hidden;}
+.slide-banner .grain{opacity:.12;}
+.slide-banner .slide-ic{position:absolute;left:2.1rem;bottom:-26px;width:58px;height:58px;display:flex;align-items:center;justify-content:center;background:var(--surface);border-radius:16px;color:var(--teal);font-size:1.4rem;box-shadow:var(--shadow);border:1px solid var(--line);}
+.slide-inner{padding:2.6rem 2.1rem 2.1rem;}
+.slide-top{display:flex;justify-content:flex-end;align-items:flex-start;margin-bottom:.6rem;}
+.slide-status{font-size:.65rem;font-weight:700;padding:.32rem .8rem;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-m);color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,121,121,.25);}
+.slide-title{font-family:var(--font-d);font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:.3rem;}
+.slide-sub{font-family:var(--font-m);font-size:.76rem;color:var(--teal);margin-bottom:1rem;}
+.slide-desc{font-size:.88rem;color:var(--text-dim);line-height:1.75;margin-bottom:1.2rem;}
+.slide-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:1.3rem;}
+.slide-hl{background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:var(--r-md);padding:.7rem .5rem;text-align:center;}
+.slide-hl b{display:block;font-family:var(--font-d);font-size:1rem;color:var(--teal);}
+.slide-hl small{font-size:.6rem;color:var(--text-mute);font-family:var(--font-m);}
+.slide-tech{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.3rem;}
+.slide-tech span{font-size:.66rem;font-family:var(--font-m);color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,121,121,.2);padding:.22rem .55rem;border-radius:var(--r-sm);}
+.slide-actions{display:flex;gap:.7rem;flex-wrap:wrap;}
+.slide-more{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.3rem;background:linear-gradient(135deg,var(--teal),var(--teal-2));border:none;border-radius:999px;color:#fff;font-size:.8rem;font-weight:700;transition:all .2s ease;box-shadow:0 8px 18px rgba(0,121,121,.28);}
+.slide-more:hover{transform:translateY(-2px);}
+.slide-git{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.3rem;background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;color:var(--text);font-size:.8rem;font-weight:700;transition:all .2s ease;}
+.slide-git:hover{border-color:var(--teal);color:var(--teal);}
+.car-arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:var(--surface);border:1px solid var(--line);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:5;transition:all .22s ease;box-shadow:var(--shadow-sm);}
+.car-arrow:hover{border-color:var(--teal);color:var(--teal);}
+.car-prev{left:-58px;} .car-next{right:-58px;}
+.car-dots{display:flex;justify-content:center;gap:.5rem;margin-top:1.3rem;}
+.car-dot{width:9px;height:9px;border-radius:50%;background:var(--line);border:none;padding:0;transition:all .25s ease;}
+.car-dot.active{background:var(--teal);width:26px;border-radius:6px;}
+@media (max-width:920px){.car-prev{left:6px;} .car-next{right:6px;}.slide-highlights{grid-template-columns:1fr 1fr 1fr;}}
+@media (max-width:520px){.slide-highlights{grid-template-columns:1fr 1fr;}}
+
+/* ============================================================
+   ACHIEVEMENTS
+============================================================ */
+.hero-metric{background:linear-gradient(135deg,var(--teal),var(--teal-2));border-radius:var(--r-xl);padding:2.2rem 2rem;margin-bottom:2rem;color:#fff;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;justify-content:center;box-shadow:0 20px 44px rgba(0,121,121,.32);}
+.hm-item{text-align:center;}
+.hm-item .num{font-family:var(--font-d);font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;line-height:1;}
+.hm-item .lbl{font-size:.68rem;opacity:.85;margin-top:.4rem;text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-m);}
+.hm-item.old .num{text-decoration:line-through;opacity:.6;}
+.hm-arrow{font-size:1.6rem;opacity:.85;}
+.hm-badge{padding:.5rem 1rem;background:rgba(255,255,255,.18);border-radius:999px;font-size:.74rem;font-weight:700;font-family:var(--font-m);}
+
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.1rem;}
+.metric-tile{padding:1.4rem;border-radius:var(--r-lg);transition:all .28s ease;}
+.metric-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.metric-ic{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--teal-dim);border-radius:12px;color:var(--teal);font-size:1.05rem;margin-bottom:.9rem;}
+.metric-num{font-family:var(--font-d);font-size:1.5rem;font-weight:800;color:var(--text);}
+.metric-unit{font-size:.72rem;color:var(--text-mute);margin-top:.15rem;}
+.metric-desc{font-size:.78rem;color:var(--text-dim);line-height:1.6;margin-top:.7rem;}
+
+/* ============================================================
+   EDUCATION / CERTS — kept understated, no accent highlight
+============================================================ */
+.edu-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:1.8rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;box-shadow:var(--shadow-sm);}
+.edu-ic{width:58px;height:58px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border:1px solid var(--line);border-radius:16px;color:var(--text-mute);font-size:1.4rem;flex-shrink:0;}
+.edu-info{flex:1;min-width:220px;}
+.edu-degree{font-family:var(--font-d);font-size:1.02rem;font-weight:700;color:var(--text);}
+.edu-school{font-size:.85rem;color:var(--text-dim);}
+.edu-meta{display:flex;gap:1.1rem;font-size:.76rem;color:var(--text-mute);margin-top:.4rem;flex-wrap:wrap;font-family:var(--font-m);}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;}
+.cert-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem;transition:all .28s ease;box-shadow:var(--shadow-sm);}
+.cert-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.cert-top{display:flex;align-items:center;gap:.9rem;margin-bottom:.6rem;}
+.cert-ic{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--teal-dim);border-radius:12px;color:var(--teal);font-size:1.05rem;}
+.cert-name{font-family:var(--font-d);font-size:.95rem;font-weight:700;color:var(--text);}
+.cert-org{font-size:.8rem;color:var(--text-dim);margin-bottom:.5rem;}
+.cert-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.66rem;font-weight:700;color:var(--teal);background:var(--teal-dim);padding:.3rem .7rem;border-radius:999px;font-family:var(--font-m);}
+
+/* ============================================================
+   CONTACT
+============================================================ */
+.contact-wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:3rem;}
+.contact-title{font-family:var(--font-d);font-size:1.55rem;font-weight:800;color:var(--text);margin-bottom:.4rem;}
+.contact-tag{font-family:var(--font-m);font-size:.78rem;color:var(--teal);margin-bottom:1.4rem;}
+.contact-body{font-size:.9rem;color:var(--text-dim);line-height:1.85;margin-bottom:1.8rem;}
+.c-methods{display:flex;flex-direction:column;gap:.65rem;}
+.c-method{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);color:var(--text);transition:all .22s ease;box-shadow:var(--shadow-sm);}
+.c-method:hover{border-color:var(--teal);transform:translateX(5px);color:var(--text);}
+.c-method-ic{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--teal-dim);border-radius:11px;color:var(--teal);font-size:.9rem;flex-shrink:0;}
+.c-method-k{font-size:.64rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.05em;font-family:var(--font-m);}
+.c-method-v{font-size:.85rem;font-weight:700;}
+
+.form-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:2rem;box-shadow:var(--shadow-sm);}
+.form-title{font-size:.95rem;font-weight:800;color:var(--text);margin-bottom:1.4rem;display:flex;align-items:center;gap:.55rem;font-family:var(--font-d);}
+.form-title .ic{color:var(--teal);}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.f-group{margin-bottom:1.1rem;}
+.f-label{font-size:.76rem;font-weight:600;color:var(--text-dim);margin-bottom:.35rem;display:block;}
+.f-input,.f-textarea{width:100%;padding:.75rem 1rem;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--r-md);color:var(--text);font-size:.86rem;font-family:var(--font-b);outline:none;transition:all .22s ease;}
+.f-input:focus,.f-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-dim);}
+.f-input.err,.f-textarea.err{border-color:var(--danger);}
+.f-err{font-size:.7rem;color:var(--danger);margin-top:.3rem;display:none;}
+.f-err.show{display:block;}
+.f-textarea{min-height:115px;resize:vertical;}
+.f-submit{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;font-size:.88rem;font-weight:700;border-radius:999px;border:none;transition:all .22s ease;display:flex;align-items:center;justify-content:center;gap:.55rem;box-shadow:0 10px 26px rgba(0,121,121,.3);}
+.f-submit:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,121,121,.4);}
+.f-success{display:none;padding:.8rem 1rem;background:var(--teal-dim);border:1px solid rgba(0,121,121,.25);border-radius:var(--r-md);color:var(--teal);font-size:.84rem;margin-top:1rem;align-items:center;gap:.55rem;}
+.f-success.show{display:flex;animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer{border-top:1px solid var(--line-soft);padding:2.5rem 1.5rem;text-align:center;position:relative;z-index:1;}
+.footer-socials{display:flex;justify-content:center;gap:.65rem;margin-bottom:1.1rem;}
+.footer-text{font-size:.8rem;color:var(--text-mute);}
+.footer-text .ac{color:var(--teal);font-weight:700;}
+
+/* ============================================================
+   MODALS
+============================================================ */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(4,10,10,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.5rem;opacity:0;transition:opacity .25s ease;}
+.modal-overlay.open{display:flex;opacity:1;}
+.modal-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);max-width:660px;width:100%;max-height:85vh;overflow-y:auto;padding:2.1rem;position:relative;transform:translateY(18px) scale(.98);transition:transform .3s cubic-bezier(.16,1,.3,1);box-shadow:var(--shadow);}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border:1px solid var(--line);border-radius:50%;color:var(--text-dim);font-size:.9rem;transition:all .2s ease;}
+.modal-close:hover{border-color:var(--teal);color:var(--teal);}
+#projectModalBody h3{font-family:var(--font-d);font-size:1.3rem;color:var(--text);margin-bottom:.3rem;}
+#projectModalBody .sub{font-family:var(--font-m);font-size:.78rem;color:var(--teal);margin-bottom:1rem;}
+#projectModalBody p{font-size:.88rem;color:var(--text-dim);line-height:1.8;margin-bottom:1rem;}
+#projectModalBody ul{list-style:none;margin-bottom:1.2rem;}
+#projectModalBody ul li{font-size:.85rem;color:var(--text-dim);padding-left:1.3rem;position:relative;margin-bottom:.55rem;line-height:1.7;}
+#projectModalBody ul li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--teal);}
+#projectModalBody .mtech{display:flex;flex-wrap:wrap;gap:.4rem;}
+#projectModalBody .mtech span{font-size:.68rem;font-family:var(--font-m);color:var(--teal);background:var(--teal-dim);border:1px solid rgba(0,121,121,.2);padding:.25rem .6rem;border-radius:var(--r-sm);}
+#projectModalBody .mlink{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-m);font-size:.78rem;color:var(--teal);margin-top:.5rem;}
+
+.resume-doc h2{font-family:var(--font-d);font-size:1.4rem;color:var(--text);margin-bottom:.15rem;}
+.resume-doc .r-role{font-family:var(--font-m);color:var(--teal);font-size:.82rem;margin-bottom:.2rem;}
+.resume-doc .r-contact{font-size:.76rem;color:var(--text-mute);margin-bottom:1.3rem;font-family:var(--font-m);}
+.resume-doc h4{font-family:var(--font-m);font-size:.72rem;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin:1.3rem 0 .6rem;padding-bottom:.4rem;border-bottom:1px dashed var(--line-soft);}
+.resume-doc p,.resume-doc li{font-size:.82rem;color:var(--text-dim);line-height:1.75;}
+.resume-doc ul{padding-left:1.2rem;margin-bottom:.6rem;}
+.resume-doc .r-job{margin-bottom:.9rem;}
+.resume-doc .r-job b{color:var(--text);}
+.resume-actions{display:flex;gap:.8rem;margin-top:1.6rem;flex-wrap:wrap;}
+
+@media print{
+  body *{visibility:hidden;}
+  #resumeModal, #resumeModal *{visibility:visible;}
+  #resumeModal{position:fixed;inset:0;background:#fff;padding:2rem;overflow:visible;}
+  .modal-close,.resume-actions{display:none!important;}
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;min-height:auto;gap:3rem;}
+  .hero-visual{padding:1.8rem 0 3.2rem 1.4rem;}
+  .about-wrap{grid-template-columns:1fr;gap:2.2rem;}
+  .contact-wrap{grid-template-columns:1fr;gap:2.2rem;}
+}
+@media (max-width:768px){
+  .nav-links{display:none;}
+  .resume-nav-btn{display:none;}
+  .hamburger{display:flex;}
+  .section{padding:4.4rem 1.2rem;}
+  .company-head{padding:1.5rem;}
+  .steps{padding:1.5rem;}
+  .form-row2{grid-template-columns:1fr;}
+  .floating-profile{position:static;width:100%;margin-top:1.4rem;justify-content:center;}
+}
+@media (max-width:520px){
+  .hero{padding-top:calc(var(--nav-h) + 1.5rem);}
+  .section{padding:3.6rem 1rem;}
+  .edu-card{flex-direction:column;text-align:center;}
+  .modal-box{padding:1.4rem;}
+  .floating-exp{position:static;display:inline-flex;align-items:center;gap:.9rem;margin-top:6rem;}
+  .floating-stack{position:static;display:inline-flex;margin-top:1rem; }
+  .hero-metric{padding:1.6rem 1.2rem;}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-fx"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="grain"></div></div>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo"><span class="nav-logo-mark">PD</span>Pavan Durgam</a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#case-studies">Case Studies</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme"><span class="ic" data-icon="moon"></span></button>
+      <button class="resume-nav-btn" id="resumeBtnNav"><span class="ic" data-icon="file"></span> Resume</button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu"><span class="ic" data-icon="bars"></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<aside class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu"><span class="ic" data-icon="times"></span></button>
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#experience">Experience</a>
+  <a href="#case-studies">Case Studies</a>
+  <a href="#projects">Projects</a>
+  <a href="#achievements">Achievements</a>
+  <a href="#contact">Contact</a>
+  <button class="mobile-resume" id="resumeBtnMobile"><span class="ic" data-icon="file"></span> View Resume</button>
+</aside>
+
+<main class="page">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="rv-l">
+      <div class="chip"><span class="d"></span> Open to Full-Time Opportunities</div>
+      <p class="hero-eyebrow">// full_stack.init()</p>
+      <h1 class="hero-name">Pavan <span>Durgam</span></h1>
+      <div class="hero-role"><span class="typed" id="typed"></span><span class="cursor"></span></div>
+      <p class="hero-summary">Full Stack Java Developer with <b>2+ years</b> designing and delivering enterprise web applications using Java, Spring Boot, Angular and ReactJS. Built a report-automation pipeline that took a <b>2-month manual process down to 5 minutes</b>, and modernized <b>15+ legacy finance modules</b> into Spring Boot/REST APIs.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-solid"><span class="ic" data-icon="rocket"></span> View the work</a>
+        <a href="#contact" class="btn-line"><span class="ic" data-icon="envelope"></span> Get in touch</a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://github.com/PavanDurgam16" target="_blank" rel="noopener" class="social" aria-label="GitHub"><span class="ic" data-icon="github"></span></a>
+        <a href="https://linkedin.com/in/durgampavan" target="_blank" rel="noopener" class="social" aria-label="LinkedIn"><span class="ic" data-icon="linkedin"></span></a>
+        <a href="mailto:durgampavan2017@gmail.com" class="social" aria-label="Email"><span class="ic" data-icon="envelope"></span></a>
+        <a href="tel:+916309700354" class="social" aria-label="Phone"><span class="ic" data-icon="phone"></span></a>
+      </div>
+    </div>
+
+    <div class="rv-r">
+	
+      <div class="hero-visual">
+        <div class="floating-exp"><b>2+</b><small>Years Exp</small></div>
+        <div class="profile-ring">
+          <div class="profile-photo"><img src="data:image/jpeg;base64,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" alt="Pavan Durgam"></div>
+			  <div class="floating-stack"><span class="ic" data-icon="java"></span> <b>Java</b> · Spring Boot · React · Angular</div>
+		</div>
+        <div class="floating-profile">
+          <div>
+            <div style="font-family:var(--font-d);font-weight:700;font-size:.86rem;color:var(--text);">Pavan Durgam</div>
+            <div style="font-size:.68rem;color:var(--text-mute);">Full Stack Java Developer</div>
+            <div class="fp-dot"><span></span> Available for hire</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="sec-head rv">
+      <div class="sec-tag">01 · About</div>
+      <h2 class="sec-title">Turning slow processes into <i>fast systems</i></h2>
+      <p class="sec-desc">A developer who enjoys the unglamorous middle of the stack — pipelines, APIs and data — as much as the UI.</p>
+    </div>
+
+    <div class="about-wrap">
+      <div class="rv-l">
+        <p class="about-lead">Full Stack Java Developer with 2+ years designing and delivering enterprise web applications using Java, Spring Boot, Angular and ReactJS.</p>
+        <p class="about-p">A proven track record of <b>modernizing 15+ legacy finance modules</b> to Spring Boot/REST APIs — skilled across the full stack, from secure REST API design with <b>Spring Security/JWT</b> to responsive ReactJS and Angular interfaces, with hands-on exposure to Spring Cloud basics, Docker and AWS.</p>
+        <p class="about-p">Comfortable owning a problem end to end: independently built a <b>Proof-of-Concept that secured client approval</b> and turned into a fully billable engagement, and built a report-processing pipeline that cut turnaround from <b>two months to five minutes</b>. Focused on outcomes — performance, traceability and reliability — not just shipped features.</p>
+
+        <div class="spec-grid">
+          <div class="spec-item"><div class="ic-box"><span class="ic" data-icon="map"></span></div><div><span class="spec-k">Location</span><span class="spec-v">Hyderabad, India</span></div></div>
+          <div class="spec-item"><div class="ic-box"><span class="ic" data-icon="envelope"></span></div><div><span class="spec-k">Email</span><span class="spec-v" style="font-size:.72rem;">durgampavan2017@gmail.com</span></div></div>
+          <div class="spec-item"><div class="ic-box"><span class="ic" data-icon="phone"></span></div><div><span class="spec-k">Phone</span><span class="spec-v">+91 6309700354</span></div></div>
+          <div class="spec-item"><div class="ic-box"><span class="ic" data-icon="briefcase"></span></div><div><span class="spec-k">Role</span><span class="spec-v">Full Stack Java Dev</span></div></div>
+        </div>
+      </div>
+
+      <div class="rv-r">
+        <div class="focus-card glass-card"><div class="focus-ic"><span class="ic" data-icon="bolt"></span></div><div><div class="focus-title">Pipeline Automation</div><div class="focus-desc">Consolidated file ingestion, extraction, templating and export into one pipeline — 2 months of manual work down to 5 minutes.</div></div></div>
+        <div class="focus-card glass-card"><div class="focus-ic"><span class="ic" data-icon="shield"></span></div><div><div class="focus-title">Security &amp; Traceability</div><div class="focus-desc">JWT auth, role-based authorization and full audit logging across uploads, processing and admin actions.</div></div></div>
+        <div class="focus-card glass-card"><div class="focus-ic"><span class="ic" data-icon="sparkles"></span></div><div><div class="focus-title">Zero-to-One Delivery</div><div class="focus-desc">Independently built the POC that got SOW Bernal greenlit as a billable client engagement.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="sec-head rv">
+      <div class="sec-tag">02 · Skills</div>
+      <h2 class="sec-title">A stack built around <i>shipping</i>, not just listing</h2>
+      <p class="sec-desc">The core stack I build in daily, backed by the surrounding tools that make it production-ready.</p>
+    </div>
+
+    <div class="core-strip rv">
+      <span class="core-pill"><span class="ic" data-icon="java"></span> Java 8+</span>
+      <span class="core-pill"><span class="ic" data-icon="leaf"></span> Spring Boot</span>
+      <span class="core-pill"><span class="ic" data-icon="react"></span> ReactJS</span>
+      <span class="core-pill"><span class="ic" data-icon="angular"></span> Angular</span>
+      <span class="core-pill"><span class="ic" data-icon="network"></span> REST APIs / Microservices</span>
+      <span class="core-pill"><span class="ic" data-icon="shield"></span> Spring Security (JWT)</span>
+    </div>
+
+    <div class="skills-bento">
+      <div class="skill-card wide glass-card rv">
+        <div class="skill-head">
+          <div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="layers"></span></div><div><div class="skill-name">Core Proficiency</div><div class="skill-tagline">// where most of the day is spent</div></div></div>
+        </div>
+        <div class="meter-list" style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem 2rem;">
+          <div class="meter-row"><span class="m-name">Java</span><div class="meter-track"><div class="meter-fill" data-w="92"></div></div><span class="m-pct">92%</span></div>
+          <div class="meter-row"><span class="m-name">Spring Boot</span><div class="meter-track"><div class="meter-fill" data-w="90"></div></div><span class="m-pct">90%</span></div>
+          <div class="meter-row"><span class="m-name">ReactJS</span><div class="meter-track"><div class="meter-fill" data-w="85"></div></div><span class="m-pct">85%</span></div>
+          <div class="meter-row"><span class="m-name">Angular</span><div class="meter-track"><div class="meter-fill" data-w="80"></div></div><span class="m-pct">80%</span></div>
+          <div class="meter-row"><span class="m-name">SQL / PL-SQL</span><div class="meter-track"><div class="meter-fill" data-w="82"></div></div><span class="m-pct">82%</span></div>
+          <div class="meter-row"><span class="m-name">REST / JWT</span><div class="meter-track"><div class="meter-fill" data-w="88"></div></div><span class="m-pct">88%</span></div>
+        </div>
+      </div>
+
+      <div class="skill-card glass-card rv">
+        <div class="skill-head"><div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="server"></span></div><div><div class="skill-name">Backend</div><div class="skill-tagline">APIs &amp; data layer</div></div></div></div>
+        <div class="chips">
+          <span class="chip-tag core">Spring Boot</span><span class="chip-tag core">Spring Data JPA</span><span class="chip-tag">Hibernate</span><span class="chip-tag core">Spring Security</span><span class="chip-tag">Spring Batch</span><span class="chip-tag">Servlets</span>
+        </div>
+      </div>
+
+      <div class="skill-card glass-card rv">
+        <div class="skill-head"><div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="react"></span></div><div><div class="skill-name">Frontend</div><div class="skill-tagline">Interfaces &amp; UX</div></div></div></div>
+        <div class="chips">
+          <span class="chip-tag core">ReactJS</span><span class="chip-tag core">Angular 15</span><span class="chip-tag">Redux Toolkit</span><span class="chip-tag">React-Bootstrap</span><span class="chip-tag">R-Suite</span><span class="chip-tag">Responsive UI</span>
+        </div>
+      </div>
+
+      <div class="skill-card glass-card rv">
+        <div class="skill-head"><div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="network"></span></div><div><div class="skill-name">Microservices &amp; Architecture</div><div class="skill-tagline">Distributed systems</div></div></div></div>
+        <div class="chips">
+          <span class="chip-tag">Spring Cloud</span><span class="chip-tag">Netflix Eureka</span><span class="chip-tag">Feign Client</span><span class="chip-tag">API Gateway</span><span class="chip-tag">Resilience4j</span>
+        </div>
+      </div>
+
+      <div class="skill-card glass-card rv">
+        <div class="skill-head"><div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="database"></span></div><div><div class="skill-name">Databases</div><div class="skill-tagline">Storage &amp; querying</div></div></div></div>
+        <div class="chips">
+          <span class="chip-tag core">Oracle DB</span><span class="chip-tag core">MySQL</span><span class="chip-tag">PostgreSQL</span><span class="chip-tag">SQL / PL-SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-card wide glass-card rv">
+        <div class="skill-head"><div class="skill-head-l"><div class="skill-ic"><span class="ic" data-icon="cloud"></span></div><div><div class="skill-name">Cloud, DevOps &amp; Tooling</div><div class="skill-tagline">Shipping and running it in production</div></div></div></div>
+        <div class="chips">
+          <span class="chip-tag core">AWS (EC2, S3, IAM)</span><span class="chip-tag">Docker</span><span class="chip-tag">Git / GitHub / SVN</span><span class="chip-tag">Maven</span><span class="chip-tag">Apache Tomcat</span><span class="chip-tag">Liquibase</span><span class="chip-tag">Apache Kafka (fundamentals)</span><span class="chip-tag">Postman</span><span class="chip-tag">JUnit / Mockito</span><span class="chip-tag">Agile / Scrum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="sec-head rv">
+      <div class="sec-tag">03 · Experience</div>
+      <h2 class="sec-title">A timeline of <i>compounding impact</i></h2>
+      <p class="sec-desc">Each engagement building on the last — from a fast POC to a full reporting platform.</p>
+    </div>
+
+    <div class="tl-graph-wrap rv" id="tlGraphWrap">
+      <div class="tl-graph-title">Impact over time</div>
+      <div class="tl-graph-sub">Illustrative view of turnaround-time and performance gains across engagements, newest on the right.</div>
+      <svg class="tl-graph" id="tlGraph" viewBox="0 0 760 220" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#007979"/>
+            <stop offset="100%" stop-color="#24B1B1"/>
+          </linearGradient>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#24B1B1" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#24B1B1" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line class="grid-line" x1="40" y1="40" x2="720" y2="40"/>
+        <line class="grid-line" x1="40" y1="90" x2="720" y2="90"/>
+        <line class="grid-line" x1="40" y1="140" x2="720" y2="140"/>
+        <line class="grid-line" x1="40" y1="176" x2="720" y2="176"/>
+        <path class="impact-area" d="M80,150 L260,120 L440,95 L620,50 L620,176 L80,176 Z"/>
+        <path class="impact-line" d="M80,150 L260,120 L440,95 L620,50"/>
+        <circle class="node-dot" cx="80" cy="150" r="6"/>
+        <circle class="node-dot" cx="260" cy="120" r="6"/>
+        <circle class="node-dot" cx="440" cy="95" r="6"/>
+        <circle class="node-dot" cx="620" cy="50" r="6"/>
+        <text class="node-value" x="80" y="132" text-anchor="middle">POC</text>
+        <text class="node-label" x="80" y="196" text-anchor="middle">SOW Bernal</text>
+        <text class="node-label" x="80" y="208" text-anchor="middle">Nov'24–Apr'25</text>
+        <text class="node-value" x="260" y="102" text-anchor="middle">+40% API speed</text>
+        <text class="node-label" x="260" y="196" text-anchor="middle">SOW Bernal</text>
+        <text class="node-value" x="440" y="77" text-anchor="middle">24–40% faster</text>
+        <text class="node-label" x="440" y="196" text-anchor="middle">e‑Finance</text>
+        <text class="node-label" x="440" y="208" text-anchor="middle">May'25–Jan'26</text>
+        <text class="node-value" x="620" y="32" text-anchor="middle">2mo → 5min</text>
+        <text class="node-label" x="620" y="196" text-anchor="middle">ZF Lifetec</text>
+        <text class="node-label" x="620" y="208" text-anchor="middle">Feb'26–Present</text>
+      </svg>
+    </div>
+
+    <div class="company-card rv">
+      <div class="company-head">
+        <div class="company-logo">SV</div>
+        <div class="company-info">
+          <div class="company-name">Satyam Venture Engineering Services</div>
+          <div class="company-meta">
+            <span><span class="ic" data-icon="map"></span> Hyderabad, India</span>
+            <span><span class="ic" data-icon="calendar"></span> Oct 2024 – Present</span>
+            <span><span class="ic" data-icon="briefcase"></span> Full Stack Java Developer</span>
+          </div>
+        </div>
+        <div class="company-badge">Current</div>
+      </div>
+
+      <div class="steps">
+        <div class="step current">
+          <div class="step-node"><span class="ic" data-icon="bolt"></span></div>
+          <div class="step-top">
+            <div><div class="step-title">ZF Lifetec — VSA Reports</div><div class="step-client">Client Engagement</div></div>
+            <div class="step-period">Feb 2026 – Present</div>
+          </div>
+          <p class="step-desc">Developed and manage the report-processing pipeline: consolidating file ingestion, Excel/PPT extraction, templating and export into a single Spring Boot + ReactJS application.</p>
+          <ul class="step-list">
+            <li>Reduced operational processing time from <span class="metric">2 months to 5 minutes</span></li>
+            <li>Built upload, processing, job-status, image-metadata &amp; streaming download REST APIs with pagination, sorting and filtering</li>
+            <li>Implemented Excel image extraction, mapping PNG assets to XML measurement identifiers for templated exports</li>
+            <li>Comprehensive audit logging across uploads, processing, downloads and admin actions</li>
+          </ul>
+          <div class="step-stack"><span>Spring Boot</span><span>ReactJS</span><span>Spring Data JPA</span><span>Audit Logging</span></div>
+        </div>
+
+        <div class="step">
+          <div class="step-node"><span class="ic" data-icon="network"></span></div>
+          <div class="step-top">
+            <div><div class="step-title">e‑Finance</div><div class="step-client">Client Engagement</div></div>
+            <div class="step-period">May 2025 – Jan 2026</div>
+          </div>
+          <p class="step-desc">Developed 15+ financial modules covering end-to-end accounting workflows — Credit/Debit Notes, Balance Sheets, Purchase Journals, Invoice Reconciliation, Customer Management and Tax Configuration.</p>
+          <ul class="step-list">
+            <li>Reusable ReactJS component library (React‑Bootstrap, R‑Suite) — <span class="metric">30% less data-entry time</span></li>
+            <li>REST APIs with Spring Data JPA for Excel/PDF export, pagination, sorting &amp; filtering</li>
+            <li>Re-engineered SQL/PL‑SQL into JPA/Hibernate — <span class="metric">24% faster API response</span></li>
+            <li>Centralized exception handling and logging via Spring AOP + SLF4J</li>
+          </ul>
+          <div class="step-stack"><span>Spring Boot</span><span>ReactJS</span><span>JPA/Hibernate</span><span>Spring AOP</span></div>
+        </div>
+
+        <div class="step">
+          <div class="step-node"><span class="ic" data-icon="sparkles"></span></div>
+          <div class="step-top">
+            <div><div class="step-title">SOW Bernal</div><div class="step-client">Client Engagement</div></div>
+            <div class="step-period">Nov 2024 – Apr 2025</div>
+          </div>
+          <p class="step-desc">Independently built a Proof‑of‑Concept that secured client approval and greenlit the project as a fully billable engagement.</p>
+          <ul class="step-list">
+            <li>Workflow, project, manufacturing, shipping and sales screens, plus master data management</li>
+            <li>Reusable ReactJS components and backend optimization — <span class="metric">40% faster API responses</span></li>
+            <li>Spring Security with JWT, role-based authorization and granular permissions</li>
+            <li>Automated a weekly Spring Batch log-archival job — <span class="metric">~5 hrs/week saved</span></li>
+          </ul>
+          <div class="step-stack"><span>Spring Security</span><span>JWT</span><span>Spring Batch</span><span>ReactJS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="early-head rv"><span class="ln"></span><span>Early Internships</span><span class="ln"></span></div>
+    <div class="early-grid">
+      <div class="early-card glass-card rv-l">
+        <div class="early-top"><div><div class="early-role">Java Developer Intern</div><div class="early-org">LetsGrowMore</div></div><div class="early-period">Jun – Jul 2023</div></div>
+        <ul class="early-list">
+          <li>Built a Dynamic Currency Converter using a real-time exchange rate API</li>
+          <li>Built a Tic‑Tac‑Toe game in Java with full game logic and outcome detection</li>
+          <li>Received a Letter of Recommendation for exceptional performance</li>
+        </ul>
+        <a class="early-link" href="https://github.com/PavanDurgam16/LGM_Projects" target="_blank" rel="noopener">github.com/PavanDurgam16/LGM_Projects →</a>
+      </div>
+      <div class="early-card glass-card rv-r">
+        <div class="early-top"><div><div class="early-role">Web Developer Intern</div><div class="early-org">Octanet Software Solutions</div></div><div class="early-period">Jun – Aug 2023</div></div>
+        <ul class="early-list">
+          <li>Built "Coastal Adventure" — a responsive landing page with dynamic slides &amp; animation</li>
+          <li>Built a responsive Instagram Clone — feed, profile and stories</li>
+          <li>Built an interactive To‑Do List web application</li>
+        </ul>
+        <a class="early-link" href="https://github.com/PavanDurgam16/OCTANET" target="_blank" rel="noopener">github.com/PavanDurgam16/OCTANET →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="section" id="case-studies">
+    <div class="sec-head rv">
+      <div class="sec-tag">04 · Case Studies</div>
+      <h2 class="sec-title">Three engagements, <i>three different problems</i></h2>
+      <p class="sec-desc">From a zero-to-one proof of concept, to modernizing legacy finance systems, to an automation pipeline running in production today.</p>
+    </div>
+
+    <div class="cs-tabs rv" id="csTabs">
+      <button class="cs-tab active" data-cs="zf">ZF Lifetec — Reporting Automation</button>
+      <button class="cs-tab" data-cs="ef">e‑Finance — Legacy Modernization</button>
+      <button class="cs-tab" data-cs="sb">SOW Bernal — Zero‑to‑One POC</button>
+    </div>
+
+    <!-- ZF Lifetec -->
+    <div class="cs-panel active" id="cs-zf">
+      <div class="cs-card rv">
+        <div class="cs-banner">
+          <div class="cs-eyebrow">Client Engagement · Feb 2026 – Present</div>
+          <div class="cs-title">Turning a two‑month reporting cycle into a five‑minute pipeline</div>
+          <p class="cs-quote">"The report that used to take a team two months to assemble now finishes before the coffee gets cold."</p>
+        </div>
+        <div class="cs-body">
+          <div class="cs-stats">
+            <div class="cs-stat"><b>2mo → 5min</b><small>Processing time</small></div>
+            <div class="cs-stat"><b>100%</b><small>Ingestion coverage</small></div>
+            <div class="cs-stat"><b>Full</b><small>Audit traceability</small></div>
+          </div>
+          <div class="cs-cols">
+            <div>
+              <p class="cs-lead">A single Spring Boot application with a ReactJS front end that replaced a slow, manual, spreadsheet-driven reporting process.</p>
+              <p class="cs-desc">The old workflow meant engineers manually pulling screenshots out of Scopes workbooks, matching them to measurement IDs by hand, and assembling reports in PowerPoint — a process that stretched across weeks.</p>
+              <ul class="cs-feature-list">
+                <li>Consolidated file ingestion, Excel/PPT extraction, templating and export into one pipeline</li>
+                <li>Upload, processing, job-status, image-metadata and streaming download REST APIs with server-side pagination, sorting and filtering</li>
+                <li>Excel image extraction with automatic image-to-measurement mapping from XML</li>
+                <li>Comprehensive audit logging across uploads, processing triggers, downloads and admin configuration changes</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cs-side-title">Stack</div>
+              <div class="cs-stack"><span>Spring Boot</span><span>ReactJS</span><span>Spring Data JPA</span><span>Excel/XML Parsing</span><span>Audit Logging</span></div>
+              <div class="cs-role-box"><b>My role</b><p>Owned both the backend pipeline and the ReactJS upload / status / preview UI end to end, from API design to production rollout.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- e-Finance -->
+    <div class="cs-panel" id="cs-ef">
+      <div class="cs-card rv">
+        <div class="cs-banner">
+          <div class="cs-eyebrow">Client Engagement · May 2025 – Jan 2026</div>
+          <div class="cs-title">Modernizing 15+ finance modules without breaking the business</div>
+          <p class="cs-quote">"Every ledger, invoice and tax rule had to keep working exactly as before — just faster, and on a stack that could scale."</p>
+        </div>
+        <div class="cs-body">
+          <div class="cs-stats">
+            <div class="cs-stat"><b>15+</b><small>Modules rebuilt</small></div>
+            <div class="cs-stat"><b>24–40%</b><small>Faster API response</small></div>
+            <div class="cs-stat"><b>30%</b><small>Less data-entry time</small></div>
+          </div>
+          <div class="cs-cols">
+            <div>
+              <p class="cs-lead">End-to-end accounting workflows — Credit/Debit Notes, Balance Sheets, Purchase Journals, Invoice Reconciliation, Customer Management and Tax Configuration — rebuilt on Spring Boot and ReactJS.</p>
+              <p class="cs-desc">The brief was reliability first: financial data can't have silent bugs. That meant heavy investment in query tuning, centralized error handling and a shared component library so every screen behaved the same way.</p>
+              <ul class="cs-feature-list">
+                <li>Reusable ReactJS component library (React-Bootstrap, R-Suite) for high-volume data entry and reporting screens</li>
+                <li>REST APIs with Spring Data JPA for Excel/PDF export, pagination, sorting and filtering across large datasets</li>
+                <li>Re-engineered SQL/PL-SQL into JPA/Hibernate and tuned queries for high-traffic endpoints</li>
+                <li>Centralized exception handling and logging with Spring AOP and SLF4J for faster issue resolution</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cs-side-title">Stack</div>
+              <div class="cs-stack"><span>Spring Boot</span><span>ReactJS</span><span>JPA/Hibernate</span><span>Spring AOP</span><span>SLF4J</span></div>
+              <div class="cs-role-box"><b>My role</b><p>Built modules end to end and owned the shared component library used across the finance screen suite.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOW Bernal -->
+    <div class="cs-panel" id="cs-sb">
+      <div class="cs-card rv">
+        <div class="cs-banner">
+          <div class="cs-eyebrow">Client Engagement · Nov 2024 – Apr 2025</div>
+          <div class="cs-title">A proof of concept that turned into a billable engagement</div>
+          <p class="cs-quote">"Built solo, under time pressure, to answer one question for the client: can this actually work?"</p>
+        </div>
+        <div class="cs-body">
+          <div class="cs-stats">
+            <div class="cs-stat"><b>POC → Billable</b><small>Outcome</small></div>
+            <div class="cs-stat"><b>40%</b><small>Faster API responses</small></div>
+            <div class="cs-stat"><b>~5 hrs/wk</b><small>Manual work removed</small></div>
+          </div>
+          <div class="cs-cols">
+            <div>
+              <p class="cs-lead">Independently built the Proof-of-Concept that secured client approval and greenlit the project as a fully billable engagement.</p>
+              <p class="cs-desc">With the POC approved, the scope grew into workflow management, project handling, manufacturing, shipping and sales screens, plus master data management for customers, users, roles and permissions.</p>
+              <ul class="cs-feature-list">
+                <li>Multi-parameter search across customers, users, roles, permissions and work-order configuration</li>
+                <li>Reusable ReactJS components and backend optimization for a 40% improvement in API response times</li>
+                <li>Spring Security with JWT authentication, role-based authorization and granular permission controls</li>
+                <li>Automated weekly Spring Batch job compressing error logs into ZIP archives</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cs-side-title">Stack</div>
+              <div class="cs-stack"><span>Spring Boot</span><span>ReactJS</span><span>Spring Security</span><span>JWT</span><span>Spring Batch</span></div>
+              <div class="cs-role-box"><b>My role</b><p>Sole engineer on the POC; later led feature delivery and security design as the engagement scaled up.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="sec-head rv">
+      <div class="sec-tag">05 · Personal Projects</div>
+      <h2 class="sec-title">Side projects, <i>built for the craft of it</i></h2>
+      <p class="sec-desc">Full-stack builds outside client work — same attention to structure, security and clean APIs.</p>
+    </div>
+
+    <div class="carousel rv">
+      <button class="car-arrow car-prev" id="carPrev" aria-label="Previous project"><span class="ic" data-icon="chevron-left"></span></button>
+      <button class="car-arrow car-next" id="carNext" aria-label="Next project"><span class="ic" data-icon="chevron-right"></span></button>
+      <div class="carousel-track-wrap">
+        <div class="carousel-track" id="carTrack">
+          <div class="slide">
+            <div class="slide-banner"><div class="grain"></div><div class="slide-ic"><span class="ic" data-icon="container"></span></div></div>
+            <div class="slide-inner">
+              <div class="slide-top"><div class="slide-status">Personal Project</div></div>
+              <div class="slide-title">E‑Commerce Platform</div>
+              <div class="slide-sub">Full-Stack E‑Commerce with JWT &amp; Role-Based Access</div>
+              <p class="slide-desc">A full-stack e-commerce platform with JWT-based authentication and role-based access control for Admin and Customer users, backed by a normalized relational schema and documented REST APIs.</p>
+              <div class="slide-highlights">
+                <div class="slide-hl"><b>RBAC</b><small>Admin / Customer</small></div>
+                <div class="slide-hl"><b>S3</b><small>Image storage</small></div>
+                <div class="slide-hl"><b>Swagger</b><small>API docs</small></div>
+              </div>
+              <div class="slide-tech"><span>Java</span><span>Spring Boot</span><span>Spring Security (JWT)</span><span>MySQL</span><span>Angular</span></div>
+              <div class="slide-actions">
+                <button class="slide-more" data-project="ecommerce">View Details <span class="ic" data-icon="arrow-right"></span></button>
+                <a class="slide-git" href="https://github.com/PavanDurgam16/ecommerce-app" target="_blank" rel="noopener"><span class="ic" data-icon="github"></span> Source</a>
+              </div>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-banner"><div class="grain"></div><div class="slide-ic"><span class="ic" data-icon="graduation"></span></div></div>
+            <div class="slide-inner">
+              <div class="slide-top"><div class="slide-status">Personal Project</div></div>
+              <div class="slide-title">Student Management System</div>
+              <div class="slide-sub">Spring Boot + Angular CRUD Platform</div>
+              <p class="slide-desc">A full-stack application with Spring Boot REST APIs and an Angular UI for managing students, courses, teachers and enrollments with complete CRUD operations.</p>
+              <div class="slide-highlights">
+                <div class="slide-hl"><b>JPA</b><small>Entity mapping</small></div>
+                <div class="slide-hl"><b>Reactive</b><small>Forms &amp; validation</small></div>
+                <div class="slide-hl"><b>JPQL</b><small>Paginated queries</small></div>
+              </div>
+              <div class="slide-tech"><span>Java</span><span>Spring Boot</span><span>JPA</span><span>MySQL</span><span>Angular</span></div>
+              <div class="slide-actions">
+                <button class="slide-more" data-project="studentms">View Details <span class="ic" data-icon="arrow-right"></span></button>
+                <a class="slide-git" href="https://github.com/PavanDurgam16/SpringBootCurdWithRestApis/tree/master/SpringBootCurdWithRestApis" target="_blank" rel="noopener"><span class="ic" data-icon="github"></span> Source</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="car-dots">
+        <button class="car-dot active" data-i="0"></button>
+        <button class="car-dot" data-i="1"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section class="section" id="achievements">
+    <div class="sec-head rv">
+      <div class="sec-tag">06 · Achievements</div>
+      <h2 class="sec-title">Numbers that <i>tell the story</i></h2>
+    </div>
+
+    <div class="hero-metric rv">
+      <div class="hm-item old"><div class="num">2 months</div><div class="lbl">Old process</div></div>
+      <div class="hm-arrow"><span class="ic" data-icon="arrow-right"></span></div>
+      <div class="hm-item"><div class="num">5 minutes</div><div class="lbl">Now</div></div>
+      <div class="hm-badge">ZF Lifetec Reporting Pipeline</div>
+    </div>
+
+    <div class="metrics-grid rv">
+      <div class="metric-tile glass-card" data-delay="0"><div class="metric-ic"><span class="ic" data-icon="clock"></span></div><div class="metric-num">5 hrs</div><div class="metric-unit">Saved per week</div><div class="metric-desc">Automated error-log archival with a weekly Spring Batch job.</div></div>
+      <div class="metric-tile glass-card" data-delay="90"><div class="metric-ic"><span class="ic" data-icon="network"></span></div><div class="metric-num">30%</div><div class="metric-unit">Data entry time cut</div><div class="metric-desc">Reusable ReactJS component library across finance modules.</div></div>
+      <div class="metric-tile glass-card" data-delay="180"><div class="metric-ic"><span class="ic" data-icon="layers"></span></div><div class="metric-num">15+</div><div class="metric-unit">Modules delivered</div><div class="metric-desc">End-to-end financial modules for e-Finance, from ledgers to tax config.</div></div>
+      <div class="metric-tile glass-card" data-delay="270"><div class="metric-ic"><span class="ic" data-icon="sparkles"></span></div><div class="metric-num">POC</div><div class="metric-unit">→ Billable engagement</div><div class="metric-desc">Independently built the demo that got SOW Bernal greenlit.</div></div>
+      <div class="metric-tile glass-card" data-delay="360"><div class="metric-ic"><span class="ic" data-icon="trophy"></span></div><div class="metric-num">Team of the<br>Quarter</div><div class="metric-unit">Award</div><div class="metric-desc">Recognized at Satyam Venture for consistent delivery impact.</div></div>
+      <div class="metric-tile glass-card" data-delay="450"><div class="metric-ic"><span class="ic" data-icon="star"></span></div><div class="metric-num">3 ★</div><div class="metric-unit">HackerRank — Java</div><div class="metric-desc">3-star rating in Java programming on HackerRank.</div></div>
+    </div>
+  </section>
+
+  <!-- EDUCATION / CERTS -->
+  <section class="section" id="education">
+    <div class="sec-head rv">
+      <div class="sec-tag">07 · Education &amp; Certifications</div>
+      <h2 class="sec-title">Background</h2>
+    </div>
+
+    <div class="edu-card rv" style="margin-bottom:2rem;">
+      <div class="edu-ic"><span class="ic" data-icon="graduation"></span></div>
+      <div class="edu-info">
+        <div class="edu-degree">B.Tech — University College of Technology, Osmania University</div>
+        <div class="edu-school">Hyderabad</div>
+        <div class="edu-meta"><span><span class="ic" data-icon="calendar"></span> May 2022</span></div>
+      </div>
+    </div>
+
+    <div class="certs-grid rv">
+      <div class="cert-card">
+        <div class="cert-top"><div class="cert-ic"><span class="ic" data-icon="shield"></span></div><div class="cert-name">AI Immersion Week Certification</div></div>
+        <div class="cert-org">CII</div>
+        <div class="cert-badge"><span class="ic" data-icon="check"></span> Verified</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-top"><div class="cert-ic"><span class="ic" data-icon="star"></span></div><div class="cert-name">HackerRank — Java (Basic)</div></div>
+        <div class="cert-org">3-Star Rating</div>
+        <div class="cert-badge"><span class="ic" data-icon="check"></span> Verified</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="contact-wrap">
+      <div class="rv-l">
+        <div class="sec-tag">08 · Contact</div>
+        <div class="contact-title">Let's build something reliable</div>
+        <div class="contact-tag">// currently open to full-time opportunities</div>
+        <p class="contact-body">Whether it's a legacy system that needs modernizing, or an automation pipeline that could save your team weeks of manual work — I'd like to hear about it.</p>
+        <div class="c-methods">
+          <a href="mailto:durgampavan2017@gmail.com" class="c-method"><div class="c-method-ic"><span class="ic" data-icon="envelope"></span></div><div><div class="c-method-k">Email</div><div class="c-method-v">durgampavan2017@gmail.com</div></div></a>
+          <a href="tel:+916309700354" class="c-method"><div class="c-method-ic"><span class="ic" data-icon="phone"></span></div><div><div class="c-method-k">Phone</div><div class="c-method-v">+91 6309700354</div></div></a>
+          <a href="https://linkedin.com/in/durgampavan" target="_blank" rel="noopener" class="c-method"><div class="c-method-ic"><span class="ic" data-icon="linkedin"></span></div><div><div class="c-method-k">LinkedIn</div><div class="c-method-v">durgampavan</div></div></a>
+          <a href="https://github.com/PavanDurgam16" target="_blank" rel="noopener" class="c-method"><div class="c-method-ic"><span class="ic" data-icon="github"></span></div><div><div class="c-method-k">GitHub</div><div class="c-method-v">PavanDurgam16</div></div></a>
+          <div class="c-method"><div class="c-method-ic"><span class="ic" data-icon="map"></span></div><div><div class="c-method-k">Location</div><div class="c-method-v">Hyderabad, Telangana, India</div></div></div>
+        </div>
+      </div>
+
+      <div class="rv-r">
+        <div class="form-card">
+          <div class="form-title"><span class="ic" data-icon="paper-plane"></span> Send a Message</div>
+          <form id="contactForm">
+            <div class="form-row2">
+              <div class="f-group"><label class="f-label">Name</label><input class="f-input" id="name" type="text" placeholder="Your name"><div class="f-err" id="nameError">Please enter your name.</div></div>
+              <div class="f-group"><label class="f-label">Email</label><input class="f-input" id="email" type="email" placeholder="you@example.com"><div class="f-err" id="emailError">Please enter a valid email.</div></div>
+            </div>
+            <div class="f-group"><label class="f-label">Message</label><textarea class="f-textarea" id="message" placeholder="Tell me about the project or role..."></textarea><div class="f-err" id="messageError">Please enter a message.</div></div>
+            <button type="submit" class="f-submit"><span class="ic" data-icon="paper-plane"></span> Send Message</button>
+            <div class="f-success" id="formSuccess"><span class="ic" data-icon="check"></span> Message sent successfully — I'll get back to you soon.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-socials">
+      <a href="https://github.com/PavanDurgam16" target="_blank" rel="noopener" class="social" aria-label="GitHub"><span class="ic" data-icon="github"></span></a>
+      <a href="https://linkedin.com/in/durgampavan" target="_blank" rel="noopener" class="social" aria-label="LinkedIn"><span class="ic" data-icon="linkedin"></span></a>
+      <a href="mailto:durgampavan2017@gmail.com" class="social" aria-label="Email"><span class="ic" data-icon="envelope"></span></a>
+    </div>
+    <div class="footer-text">© 2026 <span class="ac">Pavan Durgam</span>. Built with intent — teal, peach and a lot of coffee.</div>
+  </footer>
+</main>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal-box">
+    <button class="modal-close" id="projectModalClose" aria-label="Close"><span class="ic" data-icon="times"></span></button>
+    <div id="projectModalBody"></div>
+  </div>
+</div>
+
+<!-- RESUME MODAL -->
+<div class="modal-overlay" id="resumeModal">
+  <div class="modal-box" style="max-width:720px;">
+    <button class="modal-close" id="resumeModalClose" aria-label="Close"><span class="ic" data-icon="times"></span></button>
+    <div class="resume-doc" id="resumeDoc">
+      <h2>Pavan Durgam</h2>
+      <div class="r-role">Full Stack Java Developer</div>
+      <div class="r-contact">Hyderabad, Telangana, India · +91 6309700354 · durgampavan2017@gmail.com · linkedin.com/in/durgampavan · github.com/PavanDurgam16</div>
+
+      <h4>Professional Summary</h4>
+      <p>Full Stack Java Developer with 2+ years of experience designing and delivering enterprise web applications using Java, Spring Boot, Angular and ReactJS. Proven track record of modernizing 15+ legacy finance modules to Spring Boot/REST APIs. Skilled across the full stack from secure REST API design with Spring Security/JWT to responsive ReactJS interfaces and Angular UI, with hands-on exposure to Spring Cloud (Basics), Docker, and AWS (EC2, S3, IAM). Experienced working in Agile teams delivering measurable performance, reliability, and productivity gains for enterprise clients across finance and manufacturing domains.</p>
+
+      <h4>Core Competencies</h4>
+      <p>Java 8+ · Spring Boot · ReactJS · Angular · REST APIs · Microservices · Spring Security (JWT) · Spring Data JPA / Hibernate · Spring Batch · SQL / PL-SQL · AWS (EC2, S3, IAM) · Docker · Apache Kafka (Basics) · Redux Toolkit · Responsive UI Design</p>
+
+      <h4>Professional Experience</h4>
+      <div class="r-job"><b>Full Stack Java Developer — Satyam Venture Engineering Services, Hyderabad</b> · Oct 2024 – Present
+        <ul>
+          <li><b>ZF Lifetec — VSA Reports</b> (Feb 2026–Present): Developed and managed report-processing pipeline by consolidating file ingestion, Excel/PPT extraction, templating, and export into a single Spring Boot application with ReactJS front end, reducing operational processing time from 2 months to 5 minutes. Built REST APIs with Spring Data JPA, implemented comprehensive audit logging, and delivered upload/status UI and templated export flows in ReactJS.</li>
+          <li><b>e‑Finance</b> (May 2025–Jan 2026): Developed 15+ financial modules covering end-to-end accounting workflows using Spring Boot and ReactJS. Engineered reusable ReactJS component library using React-Bootstrap and R-Suite, cutting data entry time by 30%. Optimized backend performance by re-engineering SQL/PL-SQL into JPA/Hibernate, reducing average API response time by 24%.</li>
+          <li><b>SOW Bernal</b> (Nov 2024–Apr 2025): Independently built a Proof-of-Concept that secured client approval and greenlit the project as a fully billable engagement. Delivered comprehensive features including workflow management, project handling, and master data management. Engineered reusable ReactJS components and optimized backend services, driving 40% improvement in API response times. Implemented Spring Security with JWT authentication and role-based authorization. Automated error-log archival with Spring Batch weekly job.</li>
+        </ul>
+      </div>
+      <div class="r-job"><b>Java Developer Intern — LetsGrowMore</b> · Jun–Jul 2023
+        <ul>
+          <li>Developed a Dynamic Currency Converter web application enabling real-time conversion between currencies using an exchange rate API.</li>
+          <li>Built a Tic-Tac-Toe game in Java, implementing game logic for player interactions and outcome detection.</li>
+          <li>Received a Letter of Recommendation for exceptional performance and contributions during the internship.</li>
+        </ul>
+      </div>
+      <div class="r-job"><b>Web Developer Intern — Octanet Software Solutions</b> · Jun–Aug 2023
+        <ul>
+          <li>Developed "Coastal Adventure — Explore the Serene Beaches of India," a responsive landing page featuring dynamic moving slides and animations.</li>
+          <li>Built a responsive Instagram Clone covering the main feed, profile page, and stories listing.</li>
+          <li>Created an interactive To-Do List web application enabling users to add, organize, and complete tasks.</li>
+        </ul>
+      </div>
+
+      <h4>Technical Skills</h4>
+      <p><b>Languages:</b> Java (8+), JavaScript (ES6+), SQL, PL/SQL, HTML5, CSS3<br>
+      <b>Backend:</b> Spring Boot, Spring MVC, Spring Data JPA, Spring Security, Spring Batch, Hibernate, RESTful Web Services<br>
+      <b>Frontend:</b> Angular 15, ReactJS, Redux Toolkit, React-Bootstrap, R-Suite, Responsive UI Design<br>
+      <b>Databases:</b> Oracle Database, MySQL, PostgreSQL<br>
+      <b>Cloud & DevOps:</b> AWS (EC2, S3, IAM), Docker, Git, GitHub, Maven, Apache Tomcat<br>
+      <b>Tools & Practices:</b> Postman, IntelliJ IDEA, VS Code, Agile/Scrum, Unit Testing (JUnit, Mockito)</p>
+
+      <h4>Personal Projects</h4>
+      <p><b>E-Commerce Platform</b> — Built a full-stack e-commerce platform with JWT-based authentication, role-based access control, normalized relational database, Swagger/OpenAPI documentation, AWS S3 image storage, and responsive Angular UI with lazy-loaded modules.<br><br>
+      <b>Student Management System</b> — Built a full-stack application with Spring Boot REST APIs and Angular UI with complete CRUD operations, JPA/Hibernate ORM entity mappings, reactive forms, and optimized data retrieval with pagination.</p>
+
+      <h4>Key Achievements</h4>
+      <p>Recognized with "Team of the Quarter" Award at Satyam Venture Engineering Services · Independently built POC for SOW Bernal that secured client approval · Optimized API performance achieving 24% to 40% response time reduction · Automated error-log archival using Spring Batch, eliminating 5+ hours/week of manual effort · Achieved 3-star rating on HackerRank in Java programming</p>
+
+      <h4>Certifications</h4>
+      <p>AI Immersion Week Certification — CII</p>
+
+      <h4>Education</h4>
+      <p>B.Tech, Chemical Engineering · CGPA: 7.58/10 · University College of Technology, Osmania University, Hyderabad · May 2022</p>
+
+      <div class="resume-actions">
+        <button class="btn-solid" id="downloadResumeBtn"><span class="ic" data-icon="download"></span> Download Resume</button>
+        <button class="btn-solid" id="printResumeBtn"><span class="ic" data-icon="print"></span> Print / Save as PDF</button>
+        <a href="mailto:durgampavan2017@gmail.com?subject=Requesting%20Full%20Resume&body=Hi%20Pavan,%0A%0AI%20am%20interested%20in%20your%20full%20resume.%20Could%20you%20please%20send%20it%20to%20me?%0A%0AThank%20you!" class="btn-line"><span class="ic" data-icon="envelope"></span> Email me for full PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= ICONS — self-contained inline SVG, no sprite/use ================= */
+const ICONS = {
+  moon:'<svg viewBox="0 0 24 24"><path d="M20 13.2A8.5 8.5 0 1110.8 4a7 7 0 009.2 9.2z" fill="currentColor"/></svg>',
+  sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22.5" y2="12"/><line x1="4.4" y1="4.4" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.6" y2="19.6"/><line x1="4.4" y1="19.6" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19.6" y2="4.4"/></g></svg>',
+  file:'<svg viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 2v6h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="9" y1="17" x2="15" y2="17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  bars:'<svg viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></g></svg>',
+  times:'<svg viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></g></svg>',
+  envelope:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  phone:'<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" fill="currentColor"/></svg>',
+  map:'<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 00-7-7z" fill="currentColor"/><circle cx="12" cy="9" r="2.4" fill="var(--surface)"/></svg>',
+  github:'<svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.9 9.6.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.3-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.4 4.6-4.6 4.9.4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C22 6.6 17.5 2 12 2z" fill="currentColor"/></svg>',
+  download:'<svg viewBox="0 0 24 24"><path d="M12 2v12.5M6 16l6 5 6-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M3 20h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  linkedin:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/><rect x="6" y="9.5" width="2.6" height="8.5" fill="var(--surface)"/><circle cx="7.3" cy="6" r="1.6" fill="var(--surface)"/><path d="M11 9.5h2.6v1.3c.6-.9 1.6-1.6 3-1.6 2.7 0 3.6 1.8 3.6 4.2V18h-2.6v-4c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V18H11V9.5z" fill="var(--surface)"/></svg>',
+  java:'<svg viewBox="0 0 24 24"><path d="M6 3v8a6 6 0 0012 0V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 6.2h1.3a2.4 2.4 0 010 4.8H18" fill="none" stroke="currentColor" stroke-width="2"/><line x1="4" y1="21" x2="20" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  react:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.1" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="12" rx="10" ry="4.1"/><ellipse cx="12" cy="12" rx="10" ry="4.1" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.1" transform="rotate(120 12 12)"/></g></svg>',
+  angular:'<svg viewBox="0 0 24 24"><path d="M12 2l9 3.2-1.4 12L12 22 3.4 17.2 2 5.2 12 2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6.2l4.9 11h-2.05l-1-2.5h-3.7l-1 2.5H7.1L12 6.2zm0 3.1l-1.3 3.3h2.6L12 9.3z" fill="currentColor"/></svg>',
+  leaf:'<svg viewBox="0 0 24 24"><path d="M4 20c8-1 13-6 15-15-9 1-14 6-15 15z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 18c2-4 5-7 9-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  container:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="12" rx="1.5"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="9" y1="7" x2="9" y2="19"/><line x1="15" y1="7" x2="15" y2="19"/></g></svg>',
+  'arrow-right':'<svg viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="4" y1="12" x2="17" y2="12"/><path d="M12 6l6 6-6 6"/></g></svg>',
+  briefcase:'<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="13" x2="21" y2="13" stroke="currentColor" stroke-width="2"/></svg>',
+  calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="2.5" x2="8" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="2.5" x2="16" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  'chevron-left':'<svg viewBox="0 0 24 24"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  'chevron-right':'<svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 01-.4-9A6 6 0 0118 10a4 4 0 01-1 8H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+  database:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></svg>',
+  network:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="5" cy="5" r="2.6"/><circle cx="19" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/><path d="M7 6.8L11 17M17 6.8L13 17M7.6 5H16.4"/></g></svg>',
+  graduation:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3L2 8l10 5 10-5z"/><path d="M6 10.5V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.5"/><path d="M22 8v6"/></g></svg>',
+  'paper-plane':'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></g></svg>',
+  print:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="6" y="9" width="12" height="7"/><path d="M6 9V4h12v5"/><path d="M6 16v4h12v-4"/></g><circle cx="16.5" cy="11.5" r=".7" fill="currentColor"/></svg>',
+  server:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></g><circle cx="7" cy="7" r=".9" fill="currentColor"/><circle cx="7" cy="17" r=".9" fill="currentColor"/></svg>',
+  star:'<svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" fill="currentColor"/></svg>',
+  shield:'<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 11-4.6-2.6-8-6-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 10-14h-6l1-6z" fill="currentColor"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 4h10v3a5 5 0 01-5 5 5 5 0 01-5-5V4z"/><path d="M7 5H4a3 3 0 003 3M17 5h3a3 3 0 01-3 3"/><path d="M9 16h6l1 4H8l1-4z"/></g><line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" stroke-width="2"/></svg>',
+  sparkles:'<svg viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 2l1.3 4.7L18 8l-4.7 1.3L12 14l-1.3-4.7L6 8l4.7-1.3L12 2z"/><path d="M19 14l.6 2.4L22 17l-2.4.6L19 20l-.6-2.4L16 17l2.4-.6L19 14z"/></g></svg>',
+  rocket:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2c3 1 5 4 5 8 0 2-1 4-2 5l-3 3-3-3c-1-1-2-3-2-5 0-4 2-7 5-8z"/><path d="M9 16l-2 5 3-1M15 16l2 5-3-1"/></g><circle cx="12" cy="9" r="1.6" fill="currentColor"/></svg>',
+  layers:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></g></svg>',
+  check:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 12.3l2.6 2.6L16.2 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+document.querySelectorAll('[data-icon]').forEach(el=>{
+  el.innerHTML = ICONS[el.dataset.icon] || '';
+});
+
+/* ================= REVEAL ON SCROLL ================= */
+const revealEls = document.querySelectorAll('.rv,.rv-l,.rv-r');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:0.14});
+revealEls.forEach(el=>io.observe(el));
+
+/* ================= PROGRESS BARS / METERS / TIMELINE GRAPH on view ================= */
+function animateFillsIn(root){
+  root.querySelectorAll('.meter-fill,.p-row-fill,.bar-fill').forEach(el=>{
+    const w = el.dataset.w; if(w) el.style.width = w+'%';
+  });
+}
+const barIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ animateFillsIn(e.target); barIO.unobserve(e.target); } });
+},{threshold:0.25});
+document.querySelectorAll('.skills-bento,.tl-graph-wrap').forEach(el=>barIO.observe(el));
+
+const tlGraph = document.getElementById('tlGraph');
+const tlIO = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ tlGraph.classList.add('on'); tlIO.unobserve(e.target); } });
+},{threshold:0.3});
+tlIO.observe(document.getElementById('tlGraphWrap'));
+
+/* ================= TYPING EFFECT ================= */
+const roles = ['Full Stack Java Developer','Spring Boot Engineer','ReactJS &amp; Angular Developer','Report Automation Builder'];
+const typedEl = document.getElementById('typed');
+let rIdx = 0, cIdx = 0, deleting = false;
+function typeLoop(){
+  const full = roles[rIdx];
+  if(!deleting){
+    cIdx++;
+    typedEl.textContent = full.slice(0,cIdx);
+    if(cIdx === full.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+  } else {
+    cIdx--;
+    typedEl.textContent = full.slice(0,cIdx);
+    if(cIdx === 0){ deleting = false; rIdx = (rIdx+1)%roles.length; }
+  }
+  const speed = deleting ? 35 : 65;
+  setTimeout(typeLoop, speed);
+}
+typeLoop();
+
+/* ================= NAV SCROLL SPY ================= */
+const navbar = document.getElementById('navbar');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+function onScroll(){
+  navbar.style.boxShadow = window.scrollY > 30 ? 'var(--shadow-sm)' : 'none';
+  const y = window.scrollY + 120;
+  sections.forEach(sec=>{
+    const top = sec.offsetTop, bottom = top + sec.offsetHeight;
+    if(y >= top && y < bottom){
+      navLinks.forEach(l=>{
+        l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id);
+      });
+    }
+  });
+}
+window.addEventListener('scroll', onScroll);
+
+/* ================= THEME TOGGLE (in-memory, no storage APIs) ================= */
+const html = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+function setTheme(t){
+  html.setAttribute('data-theme', t);
+  themeToggle.innerHTML = t === 'dark' ? ICONS.moon : ICONS.sun;
+}
+themeToggle.addEventListener('click', ()=>{
+  setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+/* ================= MOBILE MENU ================= */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileOverlay = document.getElementById('mobileOverlay');
+const mobileClose = document.getElementById('mobileClose');
+function openMobile(){ mobileMenu.classList.add('open'); mobileOverlay.classList.add('open'); }
+function closeMobile(){ mobileMenu.classList.remove('open'); mobileOverlay.classList.remove('open'); }
+hamburger.addEventListener('click', openMobile);
+mobileClose.addEventListener('click', closeMobile);
+mobileOverlay.addEventListener('click', closeMobile);
+document.querySelectorAll('.mobile-menu a').forEach(a=>a.addEventListener('click', closeMobile));
+
+/* ================= CASE STUDY TABS ================= */
+document.querySelectorAll('.cs-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.cs-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.cs-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('cs-'+tab.dataset.cs).classList.add('active');
+  });
+});
+
+/* ================= PROJECT CAROUSEL ================= */
+const carTrack = document.getElementById('carTrack');
+const carDots = document.querySelectorAll('.car-dot');
+const carPrev = document.getElementById('carPrev');
+const carNext = document.getElementById('carNext');
+let carIndex = 0;
+const slideCount = document.querySelectorAll('.slide').length;
+function updateCarousel(){
+  carTrack.style.transform = `translateX(-${carIndex*100}%)`;
+  carDots.forEach((d,i)=>d.classList.toggle('active', i===carIndex));
+}
+carPrev.addEventListener('click', ()=>{ carIndex = (carIndex-1+slideCount)%slideCount; updateCarousel(); });
+carNext.addEventListener('click', ()=>{ carIndex = (carIndex+1)%slideCount; updateCarousel(); });
+carDots.forEach(d=>d.addEventListener('click', ()=>{ carIndex = parseInt(d.dataset.i); updateCarousel(); }));
+let touchStartX = 0;
+carTrack.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
+carTrack.addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if(dx > 50) { carIndex = (carIndex-1+slideCount)%slideCount; updateCarousel(); }
+  else if(dx < -50){ carIndex = (carIndex+1)%slideCount; updateCarousel(); }
+}, {passive:true});
+
+/* ================= PROJECT MODAL ================= */
+const projectData = {
+  ecommerce: {
+    title: 'E-Commerce Platform', sub: 'Full-Stack E-Commerce with JWT & RBAC',
+    desc: 'A full-stack e-commerce platform with JWT-based authentication and role-based access control for Admin and Customer users.',
+    features: [
+      'Designed a normalized relational database for products, orders, users and inventory.',
+      'Documented all REST APIs with Swagger/OpenAPI.',
+      'Implemented full product catalog management — CRUD, category filtering, inventory tracking.',
+      'Built dynamic cart/order processing with real-time price calculations.',
+      'Integrated AWS S3 for scalable product image storage with secure upload, retrieval and deletion.',
+      'Developed a responsive Angular UI with lazy-loaded modules and protected admin routes.'
+    ],
+    tech: ['Java','Spring Boot','Spring Security (JWT)','Spring Data JPA','MySQL','Swagger/OpenAPI','Angular','Maven'],
+    link: 'https://github.com/PavanDurgam16/ecommerce-app'
+  },
+  studentms: {
+    title: 'Student Management System', sub: 'Spring Boot + Angular CRUD Platform',
+    desc: 'A full-stack application with Spring Boot REST APIs and an Angular UI for managing students, courses, teachers and enrollments.',
+    features: [
+      'Designed a relational schema with JPA/Hibernate ORM and full entity mappings (1:N, N:1, N:N).',
+      'Developed a responsive Angular UI with reactive forms and client-side validation.',
+      'Built dynamic tables with search/filter for efficient data management.',
+      'Optimized data retrieval with proper fetch strategies, JPQL queries and pagination.'
+    ],
+    tech: ['Java','Spring Boot','JPA','MySQL','Angular','Maven','Lombok'],
+    link: 'https://github.com/PavanDurgam16/SpringBootCurdWithRestApis/tree/master/SpringBootCurdWithRestApis'
+  }
+};
+const projectModal = document.getElementById('projectModal');
+const projectModalBody = document.getElementById('projectModalBody');
+document.querySelectorAll('.slide-more').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const p = projectData[btn.dataset.project];
+    projectModalBody.innerHTML = `
+      <h3>${p.title}</h3>
+      <div class="sub">${p.sub}</div>
+      <p>${p.desc}</p>
+      <ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+      <div class="mtech">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
+      <a class="mlink" href="${p.link}" target="_blank" rel="noopener">${p.link.replace('https://','')}</a>
+    `;
+    projectModal.classList.add('open');
+  });
+});
+document.getElementById('projectModalClose').addEventListener('click', ()=>projectModal.classList.remove('open'));
+projectModal.addEventListener('click', e=>{ if(e.target===projectModal) projectModal.classList.remove('open'); });
+
+/* ================= RESUME MODAL ================= */
+const resumeModal = document.getElementById('resumeModal');
+function openResume(){ resumeModal.classList.add('open'); }
+document.getElementById('resumeBtnNav').addEventListener('click', openResume);
+document.getElementById('resumeBtnMobile').addEventListener('click', ()=>{ closeMobile(); openResume(); });
+document.getElementById('resumeModalClose').addEventListener('click', ()=>resumeModal.classList.remove('open'));
+resumeModal.addEventListener('click', e=>{ if(e.target===resumeModal) resumeModal.classList.remove('open'); });
+document.getElementById('downloadResumeBtn').addEventListener('click', ()=>{
+  const link = document.createElement('a');
+  link.href = 'assets/Pavan_Durgam.pdf';
+  link.download = 'Pavan_Durgam_Resume.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+document.getElementById('printResumeBtn').addEventListener('click', ()=>window.print());
+
+/* Escape key closes any open modal */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){
+    projectModal.classList.remove('open');
+    resumeModal.classList.remove('open');
+    closeMobile();
+  }
+});
+
+/* ================= CONTACT FORM VALIDATION ================= */
+const contactForm = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+contactForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  let valid = true;
+  const name = document.getElementById('name'), nameErr = document.getElementById('nameError');
+  if(!name.value.trim()){ name.classList.add('err'); nameErr.classList.add('show'); valid=false; }
+  else { name.classList.remove('err'); nameErr.classList.remove('show'); }
+
+  const email = document.getElementById('email'), emailErr = document.getElementById('emailError');
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailRe.test(email.value)){ email.classList.add('err'); emailErr.classList.add('show'); valid=false; }
+  else { email.classList.remove('err'); emailErr.classList.remove('show'); }
+
+  const message = document.getElementById('message'), msgErr = document.getElementById('messageError');
+  if(!message.value.trim()){ message.classList.add('err'); msgErr.classList.add('show'); valid=false; }
+  else { message.classList.remove('err'); msgErr.classList.remove('show'); }
+
+  if(valid){
+    formSuccess.classList.add('show');
+    contactForm.reset();
+    setTimeout(()=>formSuccess.classList.remove('show'), 5000);
+  }
+});
+document.querySelectorAll('.f-input,.f-textarea').forEach(inp=>{
+  inp.addEventListener('focus', ()=>{
+    inp.classList.remove('err');
+    const err = inp.nextElementSibling;
+    if(err && err.classList.contains('f-err')) err.classList.remove('show');
+  });
+});
+
+/* Initial icon for theme toggle already set via data-icon="moon" above */
+</script>
+</body>
+</html>
